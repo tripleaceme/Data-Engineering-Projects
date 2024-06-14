@@ -66,53 +66,17 @@ This repository is my comprehensive data engineering solutions that leverages va
 ### Installation
 
 1. **Clone the repository**:
+
     ```sh
-    git clone https://github.com/yourusername/your-repo-name.git
+    git clone https://github.com/tripleaceme/Data-Engineering-Projects.git 
     ```
 
-2. **Set up virtual environment**:
-    ```sh
-    python -m venv venv
-    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-    ```
-
-3. **Install dependencies**:
-    ```sh
-    pip install -r requirements.txt
-    ```
-
-4. **Configure Airflow**:
+2. **Configure Airflow**:
     - Follow the [Airflow documentation](https://airflow.apache.org/docs/apache-airflow/stable/start.html) to set up and configure Airflow.
 
-5. **Configure Metabase**:
+3. **Configure Metabase**:
     - Follow the [Metabase documentation](https://www.metabase.com/docs/latest/) to set up and configure Metabase.
-
-## Usage
-
-1. **Run Airflow**:
-    ```sh
-    airflow webserver --port 8080
-    airflow scheduler
-    ```
-
-2. **Access Metabase**:
-    - Open your web browser and go to `http://localhost:3000` to access Metabase.
-
-3. **Run dbt transformations**:
-    ```sh
-    dbt run
-    ```
 
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request for any changes or additions.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Inspiration
-- Resources
-
