@@ -2,13 +2,14 @@
 
 ## Description
 
-This project involves using Pandas to analyze a dataset from MongoDB. The tasks include data cleaning, feature generation, and storing the output in a MySQL database.
+This project involves generating fake data and then moving the data from MongoDB to MySQL. The tasks include data cleaning, feature generation, and storing the output in a MySQL database.
 
 ## Technologies Used
 
 - **Data Source**: MongoDB
 - **Data Analysis**: Pandas
 - **Database**: MySQL
+- **Analysis**: PyGWalker
 
 ## Project Structure
 
@@ -38,14 +39,14 @@ This project involves using Pandas to analyze a dataset from MongoDB. The tasks 
 1. **Clone the repository**:
 
     ```sh
-    git clone https://github.com/yourusername/your-repo-name.git
+    git clone https://github.com/tripleaceme/Data-Engineering-Projects.git Mongo_MySQL
     ```
 
 2. **Set up virtual environment**:
 
     ```sh
-    python -m venv venv
-    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+    python -m venv de_projects
+    source de_projects/bin/activate  # On Windows use `de_projects\Scripts\activate`
     ```
 
 3. **Install dependencies**:
@@ -64,43 +65,11 @@ This project involves using Pandas to analyze a dataset from MongoDB. The tasks 
 ### Usage
 
 1. **Extract Data from MongoDB**:
-    - Use the provided script or Jupyter notebook to extract data from MongoDB.
+    - Use the `gen_data.py` script to generate fake data for MongoDB.
 
-2. **Data Cleaning and Feature Generation**:
-    - Use the provided Pandas scripts or notebooks to clean the data and generate new features.
-
-3. **Store Data in MySQL**:
-    - Use the provided scripts to store the processed data in the MySQL database.
-
-## Example Commands
-
-1. **Run data extraction**:
-
-    ```sh
-    python extract_data.py
-    ```
-
-2. **Run data cleaning and feature generation**:
-
-    ```sh
-    python clean_and_generate_features.py
-    ```
-
-3. **Store processed data in MySQL**:
-
-    ```sh
-    python store_data_mysql.py
-    ```
+2. **Data Cleaning, Feature Generation and Store Data in MySQL**:
+    - Use the `etl.py` script to clean the data, generate new features and store the processed data in the MySQL database.
 
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request for any changes or additions.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Inspiration
-- Resources
+Contributions are welcome! Please open an issue or submit a pull request for any changes or additions. s
