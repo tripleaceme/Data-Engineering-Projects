@@ -1,55 +1,39 @@
 from pymongo import MongoClient
 import pandas as pd
 from sqlalchemy import create_engine
-import configparser as cf
-from datetime import datetime
 
+# Configure MongoDB connection
+client = MongoClient("mongodb://localhost:27017/")
+database = client["sales_oltp_db"]
 
-# configure api credential
-parser = cf.ConfigParser()
-parser.read('cred.conf')
-
-# Database connection details
-host = parser.get('mysql_creds','host')
-password = parser.get('mysql_creds','password')
-user = parser.get('mysql_creds','user')
-database = parser.get('mysql_creds','database')
-
-db_url = f"mysql+pymysql://{user}:{password}@{host}/{database}"
+# MySQL connection configuration
+db_url = f"mysql+pymysql://data_engineer:training@localhost/analytics_db"
 engine = create_engine(db_url)
 
-# Store data in MongoDB
-client = MongoClient("mongodb://localhost:27017/")
-db = client["sales_oltp_db"]
+# Pull data from MongoDB collections and convert to DataFrames
+customers = pd.DataFrame(list(database.customers.find()))
+products = pd.DataFrame(list(database.products.find()))
+orders = pd.DataFrame(list(database.orders.find()))
 
-# Extract data from MongoDB
-customers = list(db.customers.find())
-products = list(db.products.find())
-orders = list(db.orders.find())
+# Close the MongoDB connection
+client.close()
 
-# convert all to DataFrames
-customers_df = pd.DataFrame(customers)
-products_df = pd.DataFrame(products)
-orders_df = pd.DataFrame(orders)
+# Customer data transformation
+# Select relevant columns for customers
+customers_df = customers[['customer_id', 'name', 'sex', 'residence', 'latitude', 'longitude', 'birthdate']]
 
+# Rename columns for better clarity
+customers_df.rename(columns={'name': 'full_name', 'sex': 'gender'}, inplace=True)
 
-#customer data transformation
-customers_data = customers_df[['customer_id', 'name', 'sex', 'residence', 
-                                   'latitude', 'longitude', 'birthdate']]
+# Create a copy of birthdate field for further processing
+customers_df['dob'] = customers_df['birthdate']
 
-# Convert birthdate column to datetime
-customers_data['birthdate'] = pd.to_datetime(customers_data['birthdate'])
+# Convert dob column to datetime format
+customers_df['dob'] = pd.to_datetime(customers_df['dob'])
 
-# Calculate age
-current_date = datetime.now()
-customers_data.loc[:, 'age'] = current_date.year - customers_data['birthdate'].dt.year
-
-# remove extremely old and younger folks
-customers_data = customers_data[(customers_data['age'] >= 18) & (customers_data['age'] <= 80)]
-
-# Define age groups based on generational cohorts
-def generational_group(birthdate):
-    year = birthdate.year
+# Function to classify customers into generations based on birth year
+def gen_classifier(date_of_birth):
+    year = date_of_birth.year
     if year <= 1945:
         return 'Silent Generation'
     elif year <= 1964:
@@ -63,43 +47,55 @@ def generational_group(birthdate):
     else:
         return 'Generation Alpha'
 
-# Apply generational group function
-customers_data['age_group'] = customers_data['birthdate'].apply(generational_group)
+# Function to extract state code from residence address
+def state(address):
+    state_code = address[-8:-6]
+    return state_code
 
-def state(state):
-    state_name = state[-8:-6]
-    return state_name
-
-# Apply state group function
-customers_data['state_code'] = customers_data['residence'].apply(state)
-
-def zip_code(state):
-    zip_code = state[-5:]
+# Function to extract zip code from residence address
+def zip_code(address):
+    zip_code = address[-5:]
     return zip_code
 
-# Apply zip_code group function
-customers_data['zip_code'] = customers_data['residence'].apply(zip_code)
+# Apply generation classifier to dob and create a new column 'age_group'
+customers_df.loc[:, 'age_group'] = customers_df['dob'].apply(gen_classifier)
 
-# Remove unneccessary columns
-customers_data.drop(['residence','birthdate'], axis=1, inplace=True)
+# Apply state and zip code extraction functions to residence and create new columns
+customers_df.loc[:, 'state_code'] = customers_df['residence'].apply(state)
+customers_df.loc[:, 'zip_code'] = customers_df['residence'].apply(zip_code)
 
+# Drop unnecessary columns
+customers_df.drop(['dob', 'residence'], axis=1, inplace=True)
 
-#products data transformation
-products_data = products_df[['product_id', 'price', 'category', 'ratings', 'reviews']]
+# Store transformed customer data into MySQL database
+customers_df.to_sql('customers', engine, if_exists='replace', index=False)
 
+# Product data transformation
+# Select relevant columns for products
+products_data = products[['product_id', 'name', 'price', 'category', 'ratings', 'reviews']]
 
-#orders data transformation
-orders_data = orders_df[['customer_id', 'product_id', 'quantity', 'total_amount', 'order_date', 'status']]
+# Rename columns for better clarity
+products_data.rename(columns={'name': 'product_name'}, inplace=True)
 
-# Convert birthdate column to datetime
+# Store transformed product data into MySQL database
+products_data.to_sql('products', engine, if_exists='replace', index=False)
+
+# Orders data transformation
+# Select relevant columns for orders
+orders_data = orders[['customer_id', 'product_id', 'quantity', 'total_amount', 'order_date', 'status']]
+
+# Convert order_date column to datetime format
 orders_data['order_date'] = pd.to_datetime(orders_data['order_date'])
+
+# Extract month and day names from order_date and create new columns
 orders_data['order_month'] = orders_data['order_date'].dt.month_name()
 orders_data['order_day'] = orders_data['order_date'].dt.day_name()
 
 # Extract the day of the week (0 for Monday, 1 for Tuesday, ..., 6 for Sunday)
 day_of_week = orders_data['order_date'].dt.dayofweek
 
-# Apply the condition to each element of the Series
+# Determine if the order was placed on a weekday or weekend and create a new column
 orders_data['isWeekDay'] = day_of_week.apply(lambda x: "Weekend" if x > 4 else "Weekday")
 
-#print(orders_data['isWeekDay'].value_counts())
+# Store transformed order data into MySQL database
+orders_data.to_sql('orders', engine, if_exists='replace', index=False)
