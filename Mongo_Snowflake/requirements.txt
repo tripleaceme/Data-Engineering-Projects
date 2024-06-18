@@ -1,0 +1,5 @@
+pymongo
+pandas
+sqlalchemy
+snowflake-connector-python
+snowflake-sqlalchemy
