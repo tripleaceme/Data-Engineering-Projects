@@ -10,9 +10,9 @@ database = client["sales_oltp_db"]
 
 
 # Snowflake connection configuration
-SNOWFLAKE_USER = 'DataMonger'
-SNOWFLAKE_PASSWORD = 'Tr1pleac@'
-SNOWFLAKE_ACCOUNT_URL = 'ds47915.eu-central-2.aws' #'your_account_name.your_region'
+SNOWFLAKE_USER = '#'
+SNOWFLAKE_PASSWORD = '#'
+SNOWFLAKE_ACCOUNT_URL = '#' #'your_account_name.your_region'
 SNOWFLAKE_WAREHOUSE = 'DATAMONGER_WH'
 SNOWFLAKE_DATABASE = 'MONGO_SALES_DATA'
 SNOWFLAKE_SCHEMA = 'SALES'
