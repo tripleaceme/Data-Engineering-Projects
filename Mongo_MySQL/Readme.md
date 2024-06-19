@@ -68,7 +68,7 @@ This project involves generating fake data and then moving the data from MongoDB
     - Use the `gen_data.py` script to generate fake data for MongoDB.
 
 2. **Data Cleaning, Feature Generation and Store Data in MySQL**:
-    - Use the `etl.py` script to clean the data, generate new features and store the processed data in the MySQL database.
+    - Use the `mysql_etl.py` script to clean the data, generate new features and store the processed data in the MySQL database.
 
 ## Contributing
 
