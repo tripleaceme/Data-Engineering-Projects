@@ -19,7 +19,6 @@ orders = pd.DataFrame(list(database.orders.find()))
 client.close()
 
 # Customer data transformation
-# Select relevant columns for customers
 customers_df = customers[['customer_id', 'name', 'sex', 'residence', 'latitude', 'longitude', 'birthdate']]
 
 # Rename columns for better clarity
@@ -94,7 +93,7 @@ orders_data['order_day'] = orders_data['order_date'].dt.day_name()
 # Extract the day of the week (0 for Monday, 1 for Tuesday, ..., 6 for Sunday)
 day_of_week = orders_data['order_date'].dt.dayofweek
 
-# Determine if the order was placed on a weekday or weekend and create a new column
+# Determine if the order was placed on a weekday or weekend
 orders_data['isWeekDay'] = day_of_week.apply(lambda x: "Weekend" if x > 4 else "Weekday")
 
 # Store transformed order data into MySQL database
