@@ -70,7 +70,7 @@ This project involves generating fake data and then moving the data from MongoDB
     - Use the `snowflake_etl.py` script to clean the data, generate new features and store the processed data in the Snowflake database.
 
 3. **Data Transforamtion using dbt**
-    - [Coming Soon](#)
+    - [Get it here](https://github.com/tripleaceme/Data-Engineering-Projects/tree/main/Mongo_Snowflake)
 
 ## Contributing
 
