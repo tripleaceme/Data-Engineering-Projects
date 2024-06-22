@@ -21,7 +21,7 @@ The primary objectives of this dbt project are aligned with MarketEase's goals:
 
 The dbt project is structured as follows:
 
-```
+
 dbt_project/
 ├── models/
 |   |── analysis/
@@ -57,7 +57,7 @@ dbt_project/
 │   ├── scr_products.sql
 ├── dbt_project.yml
 ├── profiles.yml
-```
+
 
 ### Explanation of Folders and Files
 
