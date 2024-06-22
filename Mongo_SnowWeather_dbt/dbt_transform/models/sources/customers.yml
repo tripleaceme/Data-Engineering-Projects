@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: src_customers
+    description: "This model contains customer data."
+    columns:
+      - name: customer_id
+        description: "The unique identifier for each customer."
+        tests:
+          - unique
+          - not_null
+      - name: full_name
+        description: "The full name of the customer."
+      - name: gender
+        description: "The gender of the customer."
+        tests:
+          - accepted_values:
+              values: ['M', 'F']
+      - name: latitude
+        description: "The latitude coordinate of the customer's location."
+      - name: longitude
+        description: "The longitude coordinate of the customer's location."
+      - name: birthdate
+        description: "The birthdate of the customer."
+      - name: age_group
+        description: "The age group of the customer based on birthdate."
+      - name: state_code
+        description: "The state code of the customer's location."
+        tests:
+          - not_null
+
+      - name: zip_code
+        description: "The zip code of the customer's location."
+        tests:
+          - not_null

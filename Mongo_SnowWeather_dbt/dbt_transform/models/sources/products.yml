@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: src_products
+    description: "This model contains product data."
+    columns:
+      - name: product_id
+        description: "The unique identifier for each product."
+        tests:
+          - not_null
+      - name: product_name
+        description: "The name of the product."
+        tests:
+          - not_null
+      - name: price
+        description: "The price of the product."
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "price > 0"
+      - name: category
+        description: product category
+        #description: "{{ doc('product_categories') }}"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Clothing', 'Beauty & Personal Care', 'Movies & Television', 'Books', 'Electronics', 'Home & Kitchen']
+      - name: ratings
+        description: "The average rating of the product."
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "ratings > 0"
+      - name: reviews
+        description: "The number of reviews for the product."
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "reviews > 0"
+
+

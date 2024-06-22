@@ -1,0 +1,60 @@
+version: 2
+
+models:
+  - name: src_orders
+    description: "This model contains order data."
+    columns:
+      - name: customer_id
+        description: "The unique identifier for each customer."
+        tests:
+          - not_null
+      - name: product_id
+        description: "The unique identifier for each product."
+        tests:
+          - not_null
+      - name: quantity
+        description: "The quantity of products ordered."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('products')
+              field: product_id
+          - dbt_utils.expression_is_true:
+              expression: "quantity > 0"
+      - name: total_amount
+        description: "The total amount for the order."
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: "total_amount > 0"
+      - name: order_date
+        description: "The date when the order was placed."
+        tests:
+          - not_null
+
+      - name: status
+        #description: "{{ doc('order_status') }}"
+        description: "The status of the order."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Cancelled', 'Processing', 'Shipped', 'Delivered', 'Refund', 'Pending']
+      - name: order_month
+        description: "The month when the order was placed."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+      - name: order_day
+        description: "The day of the week when the order was placed."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+      - name: isWeekDay
+       #description: "{{ doc('isWeekend') }}"
+        description: "Indicates if the order was placed on a weekday or weekend."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Weekday', 'Weekend']

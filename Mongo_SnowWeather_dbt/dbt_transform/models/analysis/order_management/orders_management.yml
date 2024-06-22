@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: order_status_proportion
+    description: "Proportion of order statuses"
+    columns:
+      - name: STATUS
+        tests:
+          - not_null
+      - name: num_orders
+        tests:
+          - not_null
+
+  - name: temporal_order_patterns
+    description: "Temporal patterns in order cancellations and processing times"
+    columns:
+      - name: ORDER_MONTH
+        tests:
+          - not_null
+      - name: num_orders
+        tests:
+          - not_null
+      - name: num_cancelled
+        tests:
+          - not_null
+
+  - name: weekday_weekend_orders
+    description: "Weekday vs. weekend order trends"
+    columns:
+      - name: isWeekDay
+        tests:
+          - not_null
+      - name: num_orders
+        tests:
+          - not_null

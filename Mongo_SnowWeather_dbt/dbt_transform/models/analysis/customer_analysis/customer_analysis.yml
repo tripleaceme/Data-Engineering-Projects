@@ -1,0 +1,71 @@
+version: 2
+
+models:
+  - name: age_group_distribution
+    description: "Distribution of customers by age group"
+    columns:
+      - name: AGE_GROUP
+        tests:
+          - not_null
+          - unique
+      - name: num_customers
+        tests:
+          - not_null
+
+  - name: geographical_distribution
+    description: "Geographical distribution of customers by state and zip code"
+    columns:
+      - name: STATE_CODE
+        tests:
+          - not_null
+      - name: ZIP_CODE
+        tests:
+          - not_null
+      - name: num_customers
+        tests:
+          - not_null
+
+  - name: gender_based_purchasing
+    description: "Total spending by gender"
+    columns:
+      - name: GENDER
+        tests:
+          - not_null
+      - name: total_spent
+        tests:
+          - not_null
+
+  - name: avg_order_value_per_customer
+    description: "Average order value per customer"
+    columns:
+      - name: CUSTOMER_ID
+        tests:
+          - not_null
+          - unique
+      - name: avg_order_value
+        tests:
+          - not_null
+
+  - name: frequency_of_purchases
+    description: "Frequency of purchases per age group and state"
+    columns:
+      - name: AGE_GROUP
+        tests:
+          - not_null
+      - name: STATE_CODE
+        tests:
+          - not_null
+      - name: num_purchases
+        tests:
+          - not_null
+
+  - name: high_value_customers
+    description: "Top 10 high-value customers"
+    columns:
+      - name: CUSTOMER_ID
+        tests:
+          - not_null
+          - unique
+      - name: total_spent
+        tests:
+          - not_null

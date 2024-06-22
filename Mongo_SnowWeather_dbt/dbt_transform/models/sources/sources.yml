@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: sales
+    database: mongo_sales_data 
+    tables:
+      - name: customers
+      - name: orders
+      - name: products
+      

@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: total_sales_by_product
+    description: "Total sales by product and category"
+    columns:
+      - name: PRODUCT_ID
+        tests:
+          - not_null
+          - unique
+      - name: total_sales
+        tests:
+          - not_null
+
+  - name: product_ratings_and_reviews
+    description: "Ratings and reviews for each product"
+    columns:
+      - name: PRODUCT_ID
+        tests:
+          - not_null
+          - unique
+      - name: RATINGS
+        tests:
+          - not_null
+      - name: REVIEWS
+        tests:
+          - not_null
+
+  - name: top_selling_products
+    description: "Top 10 selling products by category"
+    columns:
+      - name: CATEGORY
+        tests:
+          - not_null
+      - name: PRODUCT_NAME
+        tests:
+          - not_null
+      - name: total_sales
+        tests:
+          - not_null
