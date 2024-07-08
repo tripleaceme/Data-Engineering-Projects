@@ -1,3 +1,7 @@
+{% docs product_categories %}
+
+product category
+
 ### Product Categories
 
 The `category` column in the `src_products` model can have the following values:
@@ -8,3 +12,5 @@ The `category` column in the `src_products` model can have the following values:
 - **Books**: Printed or digital reading materials.
 - **Electronics**: Electronic gadgets and devices.
 - **Home & Kitchen**: Products related to home improvement and kitchen use.
+
+{% enddocs %}
