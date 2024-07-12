@@ -76,7 +76,7 @@ customers_df.drop(['dob', 'residence'], axis=1, inplace=True)
 # Store transformed customer data into Snowflake
 customers_df.to_sql('customers', engine, if_exists='replace', index=False)
 
-print("{} customers was loaded successfully".format(len(customers_df['customer_id'])))
+print("{} customers was loaded successfully".format(len(customers_df)))
 
 
 # Product data transformation
@@ -86,7 +86,7 @@ products_data.rename(columns={'name': 'product_name'}, inplace=True)
 # Store transformed product data into Snowflake
 products_data.to_sql('products', engine, if_exists='replace', index=False)
 
-print("{} products  was loaded successfully".format(len(products_data['product_id'])))
+print("{} products  was loaded successfully".format(len(products_data)))
 
 
 # Orders data transformation
@@ -100,4 +100,4 @@ orders_data['isWeekDay'] = day_of_week.apply(lambda x: "Weekend" if x > 4 else "
 # Store transformed order data into Snowflake
 orders_data.to_sql('orders', engine, if_exists='replace', index=False)
 
-print("{} orders was loaded successfully".format(len(orders_data['isWeekDay'])))
+print("{} orders was loaded successfully".format(len(orders_data)))
