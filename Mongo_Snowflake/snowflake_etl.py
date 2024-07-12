@@ -86,7 +86,7 @@ products_data.rename(columns={'name': 'product_name'}, inplace=True)
 # Store transformed product data into Snowflake
 products_data.to_sql('products', engine, if_exists='replace', index=False)
 
-print("{} products  was loaded successfully".format(len(products_data)))
+print("{} products was loaded successfully".format(len(products_data)))
 
 
 # Orders data transformation
